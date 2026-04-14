@@ -1,15 +1,37 @@
+# Versão do formato do arquivo de configuração do App Runner.
 version: 1.0
+
+# Runtime principal da aplicação no App Runner.
 runtime: python311
 
+# Bloco de build da aplicação.
 build:
+  # Lista de comandos executados na fase de build.
   commands:
-    build:
-      - echo "build ok"
+    # Comandos executados antes do build principal.
+    pre-build:
+      # Imprime uma mensagem no console antes de iniciar o build.
+      - echo "Iniciando o deploy do meu projeto!"
 
+    # Comandos principais de build.
+    build:
+      # Apenas imprime uma mensagem simples para indicar que a etapa de build começou.
+      - echo "Executando a etapa de build da aplicacao."
+
+# Bloco de execução da aplicação.
 run:
+  # Define a versão do Python usada em tempo de execução.
   runtime-version: 3.11
+
+  # Comandos executados antes de iniciar a aplicação.
   pre-run:
+    # Instala as dependências do projeto antes de subir a aplicação.
     - pip3 install -r requirements.txt
+
+  # Comando que inicia a aplicação.
   command: gunicorn --bind 0.0.0.0:8000 app:app
+
+  # Configuração de rede da aplicação.
   network:
+    # Porta em que a aplicação vai escutar dentro do container.
     port: 8000
